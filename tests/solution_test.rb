@@ -82,4 +82,14 @@ class TestSolution < Minitest::Test
     assert_equal sol.size, 1
     assert_equal sol2.size, 2
   end
+
+  def test_comparison
+    sol = Solution.new(9, 2)
+    sol.add ['[0,0]', 2]
+    sol.add ['[0,1]', 3]
+    sol2 = Solution.new(9, 2)
+    sol2.add ['[0,0]', 2]
+    sol2.add ['[0,1]', 3]
+    assert sol == sol2
+   end
 end

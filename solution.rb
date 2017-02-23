@@ -28,14 +28,9 @@ class Solution
     @element_list << element
   end
 
-  def print
-    str = 'elements: '
-    total = 0
-    @element_list.each do |element|
-      str += element[0] + ' '
-      total += element[1]
-    end
-    puts str + " total: #{total}"
+  # assumes element is properly formated (see comment for Solution#add above)
+  def include?(element)
+    @element_list.include? element
   end
 
   # a solution is complete if the sum of it's elements is greater than
@@ -65,4 +60,25 @@ class Solution
   def size
     @element_list.size
   end
+
+  def ==(other)
+    @element_list == other.element_list
+  end
+
+  def eql?(other)
+    @element_list == other.element_list
+  end
+
+  def print
+    str = 'elements: '
+    total = 0
+    @element_list.each do |element|
+      str += element[0] + element[1].to_s + ' '
+      total += element[1]
+    end
+    puts str + " total: #{total}"
+  end
+
+  protected
+  attr_accessor :element_list
 end

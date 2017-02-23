@@ -1,27 +1,10 @@
 require 'pry'
+require_relative 'board'
+require_relative 'solver'
 
-def random_integer
-  Random.rand(10)
-end
+board = Board.new(3, 3)
 
-def print_board(board)
-  board.each do |row|
-    puts row[0].to_s + " " + row[1].to_s + " " + row[2].to_s
-  end
-end
+board.print
 
-def find_areas(board)
-  board.each do |rows|
-    rows.each do |num|
-
-    end
-  end
-end
-
-board = [
-  [random_integer, random_integer, random_integer],
-  [random_integer, random_integer, random_integer],
-  [random_integer, random_integer, random_integer],
-]
-
-print_board board
+solver = Solver.new(board)
+solver.find_solutions
