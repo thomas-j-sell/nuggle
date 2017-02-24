@@ -8,3 +8,4 @@ board.print
 
 solver = Solver.new(board)
 solver.find_solutions
+solver.print_solutions
