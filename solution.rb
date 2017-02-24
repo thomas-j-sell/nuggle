@@ -61,12 +61,20 @@ class Solution
     @element_list.size
   end
 
+  # will return true if two element lists are identical (same elements in the same order)
   def ==(other)
     @element_list == other.element_list
   end
 
+  # will return true if two elements contain the same elements regardless of order
   def eql?(other)
-    @element_list == other.element_list
+    @element_list.each do |element|
+      return false unless other.element_list.include? element
+    end
+    other.element_list.each do |element|
+      return false unless @element_list.include? element
+    end
+    true
   end
 
   def print
