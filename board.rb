@@ -13,20 +13,24 @@
 class Board
   attr_reader :width, :height
 
-  def initialize(width, height)
+  # a board can be passed in to allow manual control for testing
+  def initialize(width, height, board = nil)
     @width = width
     @height = height
-    @board = []
 
-    height.times do
-      row = []
-      width.times do
-        row << random_integer
+    if board.nil?
+      @board = []
+
+      height.times do
+        row = []
+        width.times do
+          row << random_integer
+        end
+        @board << row
       end
-      @board << row
+    else
+      @board = board
     end
-
-    @board
   end
 
   def print
