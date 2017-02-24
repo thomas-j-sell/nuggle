@@ -22,7 +22,6 @@ class Solver
 
   # find solution chains starting with each element as the base
   def find_solutions
-    solutions = []
     @height.times do |row|
       @width.times do |col|
         solution = Solution.new(@target, @min_sequence, ["[#{row},#{col}]",@board[row][col]])
@@ -34,9 +33,8 @@ class Solver
 
       end
     end
-    #@TODO do a better uniniqueness thing
-    # @solutions.uniq!
-    print_solutions
+    # print_solutions
+    @solutions
   end
 
   def print_solutions
@@ -47,98 +45,74 @@ class Solver
     end
   end
 
+  def check_for_duplicate_solutions(solution)
+    @solutions.each do |existing_solution|
+      return true if solution.eql? existing_solution
+    end
+    false
+  end
+
   # recursivly build solution chains, adding correct one to solution list
   def add_to_chain(solution, cur_row, cur_col)
     cur_element = ["[#{cur_row},#{cur_col}]",@board[cur_row][cur_col]]
 
     # repeat for each direction a new element could be
     8.times do |iteration|
-      solution.print
-      @board.print
-      puts "current cell [#{cur_row},#{cur_col}] #{@board[cur_row][cur_col]}"
+
+      # ensure next_row/next_col get reset each iteration
+      next_row = cur_row
+      next_col = cur_col
+
       if !solution.complete?
         case iteration
         when 0
           # traverse north
-          if cur_row == 0
-            puts "can't traverse north"
-          else
-            puts "next cell is #{@board[cur_row - 1][cur_col]}"
-            cur_row -= 1
-          end
+          next_row = cur_row - 1 unless cur_row == 0
         when 1
           # traverse northeast
-          if cur_row == 0 || cur_col == @col_max_index
-            puts "can't traverse northeast"
-          else
-            puts "next cell is #{@board[cur_row - 1][cur_col + 1]}"
-            cur_row -= 1
-            cur_col += 1
+          unless cur_row == 0 || cur_col == @col_max_index
+            next_row = cur_row - 1
+            next_col = cur_col + 1
           end
         when 2
           # traverse east
-          if cur_col == @col_max_index
-            puts "can't traverse east"
-          else
-            puts "next cell is #{@board[cur_row][cur_col + 1]}"
-            cur_col += 1
-          end
+          next_col = cur_col + 1 unless cur_col == @col_max_index
         when 3
           # traverse southeast
-          if cur_col == @col_max_index || cur_row == @row_max_index
-            puts "can't traverse southeast"
-          else
-            puts "next cell is #{@board[cur_row + 1][cur_col + 1]}"
-            cur_row += 1
-            cur_col += 1
+          unless cur_col == @col_max_index || cur_row == @row_max_index
+            next_row = cur_row + 1
+            next_col = cur_col + 1
           end
         when 4
           # traverse south
-          if cur_row == @row_max_index
-            puts "can't traverse south"
-          else
-            puts "next cell is #{@board[cur_row + 1][cur_col]}"
-            cur_row += 1
-          end
+          next_row = cur_row + 1 unless cur_row == @row_max_index
         when 5
           # traverse southwest
-          if cur_col == 0 || cur_row == @row_max_index
-            puts "can't traverse southeast"
-          else
-            puts "next cell is #{@board[cur_row + 1][cur_col - 1]}"
-            cur_row += 1
-            cur_col -= 1
+          unless cur_col == 0 || cur_row == @row_max_index
+            next_row = cur_row + 1
+            next_col = cur_col - 1
           end
         when 6
           # traverse west
-          if cur_col == 0
-            puts "can't traverse east"
-          else
-            puts "next cell is #{@board[cur_row][cur_col - 1]}"
-            cur_col -= 1
-          end
+          next_col = cur_col - 1 unless cur_col == 0
         when 7
           # traverse northwest
-          if cur_row == 0 || cur_col == 0
-            puts "can't traverse northeast"
-          else
-            puts "next cell is #{@board[cur_row - 1][cur_col - 1]}"
-            cur_row -= 1
-            cur_col -= 1
+          unless cur_row == 0 || cur_col == 0
+            next_row = cur_row - 1
+            next_col = cur_col - 1
           end
         else
           # something went horribly wrong
         end
 
-        next_element = ["[#{cur_row},#{cur_col}]",@board[cur_row][cur_col]]
+        next_element = ["[#{next_row},#{next_col}]",@board[next_row][next_col]]
         unless cur_element == next_element or solution.include? next_element
           duplicate_solution = solution.dup
           duplicate_solution.add next_element
-          add_to_chain(duplicate_solution, cur_row, cur_col)
+          add_to_chain(duplicate_solution, next_row, next_col)
         end
       elsif solution.correct?
-        # binding.pry
-        @solutions << solution unless @solutions.include? solution
+        @solutions << solution unless check_for_duplicate_solutions solution
       end
     end
   end
