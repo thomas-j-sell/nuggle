@@ -35,7 +35,11 @@ class Board
 
   def print
     @board.each do |row|
-      puts row[0].to_s + " " + row[1].to_s + " " + row[2].to_s
+      row.each do |element|
+        # STDOUT necessary because namespace collision
+        STDOUT.print element.to_s + " "
+      end
+      STDOUT.print "\n"
     end
   end
 
