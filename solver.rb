@@ -33,16 +33,15 @@ class Solver
 
       end
     end
-    # print_solutions
     @solutions
   end
 
   def print_solutions
     puts "-------------------------------------------------"
     @solutions.each do |solution|
-      @board.print
       solution.print
     end
+    puts "Number of solutions: #{@solutions.size}"
   end
 
   def check_for_duplicate_solutions(solution)
