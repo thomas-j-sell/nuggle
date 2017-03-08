@@ -13,6 +13,8 @@ class Solution
     @element_list << element unless element.nil?
   end
 
+  # common ruby hack to create a deep copy
+  # default implementation of Object#dup generates copies that share @element_list
   def dup
     Marshal::load(Marshal.dump(self))
   end
@@ -23,12 +25,12 @@ class Solution
   #   element two is the number at those coordinates
   #   ex: ['[0,1]', 7]
   #
-  # @TODO don't allow elemets to be added if they are already a part of the solution?
+  # @TODO don't allow elements to be added if they are already a part of the solution?
   def add(element)
     @element_list << element
   end
 
-  # assumes element is properly formated (see comment for Solution#add above)
+  # assumes element is properly formatted (see comment for Solution#add above)
   def include?(element)
     @element_list.include? element
   end
@@ -44,7 +46,7 @@ class Solution
   end
 
   # a solution is correct if the sum of it's elements is exactly equal
-  # to the target total and consists of at least @mimimun_size elements
+  # to the target total and consists of at least @minimum_size elements
   def correct?
     total = 0
     @element_list.each do |element|
