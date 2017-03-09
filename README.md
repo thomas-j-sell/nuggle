@@ -6,7 +6,27 @@ This program can be run from the command line in the projects root directory wit
 
 ```ruby nuggle.rb```
 
-This will generate a puzzle with default dimensions (3x3), find the solutions, and print both the game board and solutions to the console.
+This will generate a puzzle with default dimensions (3x3), find the solutions, and print both the game board and solutions to the console.  Output will appear similar to this:
+
+```
+6 3 6 
+5 5 0 
+0 2 4 
+-------------------------------------------------
+elements: [0,0]6 [0,1]3  total: 9
+elements: [0,1]3 [0,2]6  total: 9
+elements: [0,1]3 [1,2]0 [0,2]6  total: 9
+elements: [0,1]3 [1,2]0 [2,2]4 [2,1]2  total: 9
+elements: [1,1]5 [1,2]0 [2,2]4  total: 9
+elements: [1,1]5 [2,2]4  total: 9
+elements: [1,2]0 [0,1]3 [0,0]6  total: 9
+elements: [2,0]0 [1,1]5 [1,2]0 [2,2]4  total: 9
+elements: [2,0]0 [1,1]5 [2,2]4  total: 9
+elements: [2,0]0 [2,1]2 [2,2]4 [1,2]0 [0,1]3  total: 9
+Number of solutions: 10
+```
+
+
 
 Nuggle can be instructed to generate and solve game boards of various sizes by provided the command with arguments.
 
